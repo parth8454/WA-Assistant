@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Login</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; margin-top: 50px; background: #111; color: white; }
+        #qr img { border-radius: 10px; padding: 15px; background: white; margin-top: 20px;}
+    </style>
+</head>
+<body>
+    <h2>WhatsApp Assistant</h2>
+    <h3 id="status">Waiting for QR...</h3>
+    <div id="qr"></div>
+
+    <script>
+        // Connect to the new SSE endpoint
+       // 🟢 FIX: Make sure it says /qr-stream at the end!
+    const evtSource = new EventSource('http://localhost:3000/qr-stream');
+
+    evtSource.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+        if (data.qr) {
+        document.getElementById('status').innerText = 'Scan this with WhatsApp';
+        document.getElementById('qr').innerHTML = `<img src="${data.qr}" width="300"/>`;
+        }
+        if (data.status === 'connected') {
+            document.getElementById('status').innerText = '✅ Connected!';
+            document.getElementById('qr').innerHTML = '';
+            evtSource.close();
+        }
+    };
+    </script>
+</body>
+</html>
