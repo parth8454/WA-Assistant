@@ -101,13 +101,24 @@ export const createSession = async(onMessage,onQR,onReady)=>{
         }
     });
 
-    sock.ev.on('messages.upsert',async ({messages})=>{
+    const botStartTime = Math.floor(Date.now() / 1000);
+
+    sock.ev.on('messages.upsert',async ({messages,type})=>{
 
         SESSION_HEALTH = Date.now();
+
+        if (type !== 'notify') {
+            return;
+        }
 
         const msg = messages[0];
 
         if(!msg || msg.key.fromMe || !msg.message){
+            return;
+        }
+
+        if (msg.messageTimestamp < botStartTime) {
+            console.log('Skipping old offline message...');
             return;
         }
 
