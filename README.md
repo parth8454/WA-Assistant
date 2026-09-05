@@ -1,6 +1,6 @@
 # WhatsApp AI Assistant
 
-A custom-built WhatsApp AI gatekeeper that handles incoming messages while you are away. Powered by Node.js, the Baileys library, and the Groq API, this assistant features context-aware conversational memory and automatic QR code generation for easy device linking.
+A custom-built WhatsApp AI gatekeeper that handles incoming messages while you are away. Powered by Node.js, the Baileys library, and the Groq API, this assistant features context-aware conversational memory and automatic QR code generation for easy device linking
 
 ## Features
 
